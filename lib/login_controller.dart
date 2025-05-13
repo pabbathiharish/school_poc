@@ -14,7 +14,6 @@ import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
 import 'package:location/location.dart';
-import 'package:school_poc/face_crop_service.dart';
 import 'package:tflite_flutter/tflite_flutter.dart';
 import 'package:tflite_flutter_helper/tflite_flutter_helper.dart';
 
@@ -54,18 +53,12 @@ class LoginController extends GetxController {
 
   Future<List<double>> getEmbedding(File imageFile) async {
     try {
-      FaceCropService faceCropService = FaceCropService();
-      // final croppedImage =
-      //     await faceCropService.captureAndDetectFace1(imageFile);
-      // if (croppedImage != null) {
-      //   croppedImages.add(croppedImage);
-
       final bytes = await imageFile.readAsBytes();
       final oriImage = await decodeImageInBackground(bytes);
       if (oriImage == null) throw Exception("Image decoding failed");
-      // Resize image
-      final resized = img.copyResize(oriImage,
-          width: 256, height: 256); // Assuming 112x112 input
+      // // Resize image
+      // final resized = img.copyResize(oriImage,
+      //     width: 256, height: 256); // Assuming 112x112 input
 
       // Load image to TensorImage
       var tensorImage = TensorImage(TfLiteType.float32);
@@ -89,9 +82,6 @@ class LoginController extends GetxController {
       _interpreter.run(_inputImage.buffer, _outputBuffer.buffer);
 
       return _l2Normalize(_outputBuffer.getDoubleList());
-      // } else {
-      //   return [];
-      // }
     } catch (e) {
       print("Error in getEmbedding: $e");
       return [];
@@ -136,27 +126,6 @@ class LoginController extends GetxController {
   }
 
   Future<void> compareFaces() async {
-    resultText.value = '';
-    if (refImage.value.path != '' && newImage.value.path != '') {
-      isLoading.value = true;
-
-      final emb1 = await getEmbedding(refImage.value);
-      final emb2 = await getEmbedding(newImage.value);
-
-      final sim = cosineSimilarity(emb1, emb2);
-      locationData = await location.getLocation();
-      isLoading.value = false;
-      resultText.value = sim > 0.80
-          ? '✅ Face Matched! Attendance Marked.\nSimilarity: ${sim.toStringAsFixed(4)} \n Location Info: ${locationData?.latitude?.toStringAsFixed(3)}, ${locationData?.longitude?.toStringAsFixed(3)}'
-          : '❌ Face Not Matched.\nSimilarity: ${sim.toStringAsFixed(4)}';
-      print(resultText);
-    } else {
-      isLoading.value = false;
-      print("please check image");
-    }
-  }
-
-  Future<void> compareFaces1() async {
     resultText.value = '';
     if (refImage.value.path != '' && newImage.value.path != '') {
       isLoading.value = true;

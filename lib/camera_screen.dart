@@ -11,6 +11,7 @@ import 'dart:ui' as ui;
 
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_mlkit_face_detection/google_mlkit_face_detection.dart';
 import 'package:image/image.dart' as imglib;
 import 'package:path/path.dart';
@@ -147,35 +148,32 @@ class _CameraScreenState extends State<CameraScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: const Text('Face Cropper')),
-      body: Column(
+      body: Stack(
         children: [
-          SizedBox(
-            width: MediaQuery.sizeOf(context).width,
-            height: MediaQuery.sizeOf(context).width,
-            child: FutureBuilder<void>(
-              future: _initializeControllerFuture,
-              builder: (context, snapshot) {
-                if (snapshot.connectionState == ConnectionState.done) {
-                  return CameraPreview(_controller);
-                } else {
-                  return const Center(child: CircularProgressIndicator());
-                }
-              },
-            ),
-          ),
-          ElevatedButton(
-            onPressed: captureAndDetectFace,
-            child: const Text('Capture & Detect Face'),
-          ),
-          if (_croppedFaceImage != null)
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: SizedBox(
-                width: 100,
-                height: 100,
-                child: Image.file(_croppedFaceImage!),
-              ),
-            ),
+          Positioned(
+              child: FutureBuilder<void>(
+            future: _initializeControllerFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.done) {
+                return CameraPreview(_controller);
+              } else {
+                return const Center(child: CircularProgressIndicator());
+              }
+            },
+          )),
+          Positioned(
+              bottom: 16,
+              left: Get.width / 2 - 40,
+              child: InkWell(
+                child: Image.asset(
+                  "assets/images/ic_shoot.png",
+                  width: 80,
+                  height: 80,
+                ),
+                onTap: () async {
+                  captureAndDetectFace();
+                },
+              )),
         ],
       ),
     );

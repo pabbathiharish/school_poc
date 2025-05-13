@@ -45,43 +45,37 @@ class _LoginScreenState extends State<LoginScreen> {
                       .paddingOnly(bottom: 16)
                 ],
               ),
-              !ctrlLogin.refImage.value.path.isEmpty
-                  ? Image.file(ctrlLogin.refImage.value, height: 150)
-                      .paddingOnly(bottom: 8)
+              ctrlLogin.refImage.value.path.isNotEmpty
+                  ? ClipPath(
+                      clipper: const ShapeBorderClipper(shape: CircleBorder()),
+                      clipBehavior: Clip.hardEdge,
+                      child: Image.file(ctrlLogin.refImage.value, height: 200),
+                    ).paddingOnly(bottom: 8)
                   : Container(),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: () => ctrlLogin.pickImage(true),
-                      child: Text("Take Reference Image")),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.to(CameraScreen(onImageCapture: (image) {
-                          ctrlLogin.refImage.value = image!;
-                        }));
-                      },
-                      child: Text("Take Cam"))
-                ],
-              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(CameraScreen(onImageCapture: (image) {
+                      ctrlLogin.refImage.value = image!;
+                    }));
+                  },
+                  child: Text("Reference Image")),
               SizedBox(height: 20),
-              !ctrlLogin.newImage.value.path.isEmpty
-                  ? Image.file(ctrlLogin.newImage.value, height: 150)
+              ctrlLogin.newImage.value.path.isNotEmpty
+                  ? ClipPath(
+                          clipper:
+                              const ShapeBorderClipper(shape: CircleBorder()),
+                          clipBehavior: Clip.hardEdge,
+                          child:
+                              Image.file(ctrlLogin.newImage.value, height: 200))
                       .paddingOnly(bottom: 8)
                   : Container(),
-              Row(
-                children: [
-                  ElevatedButton(
-                      onPressed: () => ctrlLogin.pickImage(false),
-                      child: Text("Take New Image")),
-                  ElevatedButton(
-                      onPressed: () {
-                        Get.to(CameraScreen(onImageCapture: (image) {
-                          ctrlLogin.newImage.value = image!;
-                        }));
-                      },
-                      child: Text("Image Cam"))
-                ],
-              ),
+              ElevatedButton(
+                  onPressed: () {
+                    Get.to(CameraScreen(onImageCapture: (image) {
+                      ctrlLogin.newImage.value = image!;
+                    }));
+                  },
+                  child: Text("New Image")),
               SizedBox(height: 20),
               Column(
                 children: [
@@ -92,10 +86,6 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: Text("Compare Faces")),
                   SizedBox(height: 20),
                   Text(ctrlLogin.resultText.value, textAlign: TextAlign.center),
-                  // ctrlLogin.croppedImages.isNotEmpty
-                  //     ? Image.file(ctrlLogin.newImage.value, height: 150)
-                  //         .paddingOnly(bottom: 8)
-                  //     : Container()
                 ],
               ).paddingOnly(bottom: 32),
             ],
