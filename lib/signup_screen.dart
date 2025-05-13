@@ -46,7 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
   startLiveness() async {
     var result = await faceSdk.startLiveness(
-      config: LivenessConfig(skipStep: [LivenessSkipStep.ONBOARDING_STEP]),
+      config: LivenessConfig(skipStep: [LivenessSkipStep.SUCCESS_STEP]),
       notificationCompletion: (notification) {
         print(notification.status);
       },
