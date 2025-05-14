@@ -10,6 +10,7 @@ import 'dart:math' as math;
 import 'dart:math';
 
 import 'package:flutter/foundation.dart';
+import 'package:geocoding/geocoding.dart' as geoCoding;
 import 'package:get/get.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
@@ -135,9 +136,14 @@ class LoginController extends GetxController {
 
       final sim = cosineSimilarity(emb1, emb2);
       locationData = await location.getLocation();
+      List<geoCoding.Placemark> placemarks =
+          await geoCoding.placemarkFromCoordinates(
+              locationData!.latitude!, locationData!.longitude!);
+      final address =
+          '${placemarks.first.name},${placemarks.first.name},${placemarks.first.subLocality},${placemarks.first.locality},${placemarks.first.subAdministrativeArea},${placemarks.first.administrativeArea},${placemarks.first.postalCode},${placemarks.first.country}';
       isLoading.value = false;
       resultText.value = sim > 0.80
-          ? '✅ Face Matched! Attendance Marked.\nSimilarity: ${sim.toStringAsFixed(4)} \n Location Info: ${locationData?.latitude?.toStringAsFixed(3)}, ${locationData?.longitude?.toStringAsFixed(3)}'
+          ? '✅ Face Matched! Attendance Marked.\nSimilarity: ${sim.toStringAsFixed(4)} \n Location Info: ${locationData?.latitude?.toStringAsFixed(3)}, ${locationData?.longitude?.toStringAsFixed(3)} \n ${address}'
           : '❌ Face Not Matched.\nSimilarity: ${sim.toStringAsFixed(4)}';
       print(resultText);
     } else {

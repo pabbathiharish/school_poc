@@ -89,8 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        Text(ctrlLogin.resultText.value,
-                            textAlign: TextAlign.center)
+                        Expanded(
+                            child: Text(ctrlLogin.resultText.value,
+                                textAlign: TextAlign.center))
                       ],
                     ),
                   ],

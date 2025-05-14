@@ -41,6 +41,7 @@ dependencies:
   google_mlkit_face_detection: ^0.13.1
   flutter_face_api: ^6.4.875
   tflite_flutter_helper: ^0.3.1
+  geocoding: ^3.0.0
 #    git:
 #      url: https://github.com/am15h/tflite_flutter_helper.git
 #      ref: master
