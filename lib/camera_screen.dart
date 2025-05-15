@@ -96,8 +96,8 @@ class _CameraScreenState extends State<CameraScreen> {
         _croppedFaceImage = croppedImage;
       });
       widget.onImageCapture(croppedImage);
-
       faceDetector.close();
+      Get.back();
     } catch (e) {
       print("Error: $e");
     }

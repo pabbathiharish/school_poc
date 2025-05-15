@@ -1,11 +1,14 @@
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:school_poc/login_screen.dart';
+import 'package:school_poc/splash_screen.dart';
+
+import 'injection.dart' as di;
 
 late CameraDescription firstCamera;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  di.init();
   final cameras = await availableCameras();
   firstCamera = cameras[1];
   runApp(const MyApp());
@@ -24,7 +27,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginScreen(),
+      home: SplashScreen(),
     );
   }
 }
