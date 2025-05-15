@@ -67,6 +67,10 @@ class _HomeScreenState extends State<HomeScreen> {
                 ctrlSignUp.ctrlStudentId.value.text,
                 style: TextStyle(fontWeight: FontWeight.w600, fontSize: 20),
               ).paddingOnly(bottom: 8),
+              Text(
+                ctrlLogin.address.value,
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 16),
+              ).paddingOnly(bottom: 8),
             ],
           )),
         ));
