@@ -9,8 +9,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:school_poc/login_controller.dart';
-import 'package:school_poc/login_screen.dart';
 import 'package:school_poc/signup_controller.dart';
+import 'package:school_poc/signup_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -31,7 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               TextButton(
                   onPressed: () {
-                    Get.offAll(LoginScreen());
+                    Get.offAll(SignupScreen());
                   },
                   child: Text("Logout")),
               SizedBox(
